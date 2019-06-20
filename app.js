@@ -10,7 +10,7 @@ const ticketData = require('./ticketData')
 
 app.use(helmet())
 
-const whitelist = ['http://localhost:3000', 'https://wow.local', 'https://wondersofwildlife.org']
+const whitelist = ['http://localhost:8080', 'http://wow.local', 'https://wondersofwildlife.org', 'http://shivering-newspaper.flywheelsites.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {

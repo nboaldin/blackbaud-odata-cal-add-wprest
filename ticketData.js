@@ -15,7 +15,11 @@ const ticketSchema = new Schema({
     ProgramEventsEndtime: String,
     ProgramEventsName: String,
     ProgramEventsPresaleticketlimit: Number,
-    ProgramEventsStartdate: String,
+    ProgramEventsStartdate: {
+        type: String,
+        index: true,
+        unique: true
+    },
     ProgramEventsStarttime: String,
     ProgramEventsSystemrecordID: {
         type: String,
@@ -43,11 +47,11 @@ const cronStuff = cron.schedule('0 59 * * * *', () => {
                     ProgramEventsActive: day.ProgramEventsActive,
                     ProgramEventsCapacity: day.ProgramEventsCapacity,
                     ProgramEventsDescription: day.ProgramEventsDescription,
-                    ProgramEventsEnddate: day.ProgramEventsEnddate,
+                    ProgramEventsEnddate: day.ProgramEventsEnddate + 'Z',
                     ProgramEventsEndtime: day.ProgramEventsEndtime,
                     ProgramEventsName: day.ProgramEventsName,
                     ProgramEventsPresaleticketlimit: day.ProgramEventsPresaleticketlimit,
-                    ProgramEventsStartdate: day.ProgramEventsStartdate,
+                    ProgramEventsStartdate: day.ProgramEventsStartdate + 'Z',
                     ProgramEventsStarttime: day.ProgramEventsStarttime,
                     ProgramEventsSystemrecordID: day.ProgramEventsSystemrecordID,
                 });
