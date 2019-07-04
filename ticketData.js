@@ -15,11 +15,7 @@ const ticketSchema = new Schema({
     ProgramEventsEndtime: String,
     ProgramEventsName: String,
     ProgramEventsPresaleticketlimit: Number,
-    ProgramEventsStartdate: {
-        type: String,
-        index: true,
-        unique: true
-    },
+    ProgramEventsStartdate: String,
     ProgramEventsStarttime: String,
     ProgramEventsSystemrecordID: {
         type: String,
@@ -30,9 +26,9 @@ const ticketSchema = new Schema({
 
 const Ticket = mongoose.model("Ticket", ticketSchema);
 
-const cronStuff = cron.schedule('0 59 * * * *', () => {
+const cronStuff = cron.schedule('* * * * *', () => {
 
-    console.log('Running a job every hour at America/Chicago timezone');
+    console.log('Running a job every minute at America/Chicago timezone');
     Ticket.deleteMany({}, function(err) {
         if (err) {
             console.log('Error deleting all tickets before call to odata database');
@@ -43,26 +39,34 @@ const cronStuff = cron.schedule('0 59 * * * *', () => {
     axios.get(process.env.ODATA_URI)
         .then((response) => {
             response.data.value.forEach((day) => {
-                const ticket = new Ticket({
-                    ProgramEventsActive: day.ProgramEventsActive,
-                    ProgramEventsCapacity: day.ProgramEventsCapacity,
-                    ProgramEventsDescription: day.ProgramEventsDescription,
-                    ProgramEventsEnddate: day.ProgramEventsEnddate + 'Z',
-                    ProgramEventsEndtime: day.ProgramEventsEndtime,
-                    ProgramEventsName: day.ProgramEventsName,
-                    ProgramEventsPresaleticketlimit: day.ProgramEventsPresaleticketlimit,
-                    ProgramEventsStartdate: day.ProgramEventsStartdate + 'Z',
-                    ProgramEventsStarttime: day.ProgramEventsStarttime,
-                    ProgramEventsSystemrecordID: day.ProgramEventsSystemrecordID,
-                });
 
-                ticket.save(function (err, ticket) {
-                    if (err) {
-                        // console.log('There was an error.');
-                    } else {
-                        console.log(`This order saved to db: ${ticket._id}`);
-                    }
-                });
+                async function addTicket() {
+
+                    // const startDate = await day.ProgramEventsStartdate + 'Z';
+                    // const endDate =  await day.ProgramEventsEnddate + 'Z';
+
+                    const ticket = new Ticket({
+                        ProgramEventsActive: day.ProgramEventsActive,
+                        ProgramEventsCapacity: day.ProgramEventsCapacity,
+                        ProgramEventsDescription: day.ProgramEventsDescription,
+                        ProgramEventsEnddate: day.ProgramEventsEnddate,
+                        ProgramEventsEndtime: day.ProgramEventsEndtime,
+                        ProgramEventsName: day.ProgramEventsName,
+                        ProgramEventsPresaleticketlimit: day.ProgramEventsPresaleticketlimit,
+                        ProgramEventsStartdate: day.ProgramEventsStartdate,
+                        ProgramEventsStarttime: day.ProgramEventsStarttime,
+                        ProgramEventsSystemrecordID: day.ProgramEventsSystemrecordID,
+                    });
+
+                    ticket.save(function (err, ticket) {
+                        if (err) {
+                            // console.log('There was an error.');
+                        } else {
+                            console.log(`This order saved to db: ${ticket._id}`);
+                        }
+                    });
+                }
+                addTicket();
 
             })
 
