@@ -3,7 +3,8 @@
     "name": "blackbaud-odata-cal",
     "env": {
         "MONGO_URI": "@blackbaud_mongo_uri",
-        "ODATA_URI": "@blackbaud_odata_uri"
+        "ODATA_URI": "@blackbaud_odata_uri",
+        "WP_URI": "@blackbaud_wp_uri"
     },
     "alias": "blackbaud-odata-cal"
 }
