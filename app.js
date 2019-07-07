@@ -6,8 +6,8 @@ const cors = require('cors');
 const port = 3000
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const ticketData = require('./ticketData')
-const wpData = require('./wpData');
+// const ticketData = require('./ticketData')
+// const wpData = require('./wpData');
 const mergeData = require('./mergeData');
 
 app.use(helmet())
@@ -37,14 +37,14 @@ const db = mongoose.connect(encodeURI(process.env.MONGO_URI), {
 }).catch(err => console.log(err));
 
 
-// app.get('/', cors(corsOptions ) ,function(req, res) {
-//   ticketData.Ticket.find({}).then( function(tickets, err) {
-//     if(err) {
-//       console.log(err)
-//     }
-//     res.json(tickets);
-//   });
+app.get('/', cors(corsOptions ) ,function(req, res) {
+  mergeData.Merged.find({}).then( function(tickets, err) {
+    if(err) {
+      console.log(err)
+    }
+    res.json(tickets);
+  });
 
-// });
+});
 
 app.listen(port)
