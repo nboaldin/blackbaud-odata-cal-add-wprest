@@ -38,6 +38,7 @@ const cronStuff = cron.schedule('* * * * *', () => {
 
     axios.get(process.env.ODATA_URI)
         .then((response) => {
+
             response.data.value.forEach((day) => {
 
                 async function addTicket() {
@@ -60,9 +61,9 @@ const cronStuff = cron.schedule('* * * * *', () => {
 
                     ticket.save(function (err, ticket) {
                         if (err) {
-                            // console.log('There was an error.');
+                            // console.log('There was an error saving Odata data.');
                         } else {
-                            console.log(`This order saved to db: ${ticket._id}`);
+                            // console.log(`This order saved to db: ${ticket._id}`);
                         }
                     });
                 }
