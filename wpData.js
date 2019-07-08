@@ -21,7 +21,7 @@ const wpSchema = new Schema({
 
 const Wp = mongoose.model("Wp", wpSchema);
 
-const cronStuff = cron.schedule('* * * * *', () => {
+const cronStuff = cron.schedule('20 * * * * *', () => {
 
     console.log('Running a job every minute at America/Chicago timezone');
     Wp.deleteMany({}, function(err) {
@@ -48,9 +48,9 @@ const cronStuff = cron.schedule('* * * * *', () => {
 
                     wp.save(function (err, wp) {
                         if (err) {
-                         // console.log('There was an error saving Wordpress Rest documents.', err.statusText);
+                            console.log('There was an error saving Wordpress Rest documents.', err.statusText);
                         } else {
-                            // console.log(`This wp date was saved to db: ${wp.Date}`);
+                            console.log(`This wp date was saved to db: ${wp.Date}`);
                         }
                     });
                 }

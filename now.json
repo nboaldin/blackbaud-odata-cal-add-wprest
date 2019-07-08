@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "blackbaud-odata-cal",
+    "name": "blackbaud-odata-cal-add-wprest",
     "env": {
         "MONGO_URI": "@blackbaud_mongo_uri",
         "ODATA_URI": "@blackbaud_odata_uri",

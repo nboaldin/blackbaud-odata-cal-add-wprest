@@ -36,6 +36,7 @@ async function gatherData () {
     return [await oData, await wpRest];
 }
 
+const cronStuff = cron.schedule('45 * * * * *', () => {
 
 
 gatherData().then((response) => {
@@ -69,7 +70,6 @@ gatherData().then((response) => {
     //Merged data model
     const Merged = mongoose.model("Merged", mergedSchema);
 
-    const cronStuff = cron.schedule('30 * * * * *', () => {
 
     console.log('Running a job every minute at America/Chicago timezone');
     Merged.deleteMany({}, function(err) {
@@ -103,10 +103,7 @@ gatherData().then((response) => {
         }
         addMerged();
     });
-    }, {
-        scheduled: true,
-        timezone: "America/Chicago"
-    });
+
 
     module.exports.Merged = Merged;
     
@@ -114,6 +111,11 @@ gatherData().then((response) => {
 .catch((err) => {
     console.log('Error getting oData and wpRest together', err)
 })
+
+}, {
+    scheduled: true,
+    timezone: "America/Chicago"
+});
 
 
 

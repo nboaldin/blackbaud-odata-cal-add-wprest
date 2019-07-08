@@ -26,7 +26,7 @@ const ticketSchema = new Schema({
 
 const Ticket = mongoose.model("Ticket", ticketSchema);
 
-const cronStuff = cron.schedule('* * * * *', () => {
+const cronStuff = cron.schedule('1 * * * * *', () => {
 
     console.log('Running a job every minute at America/Chicago timezone');
     Ticket.deleteMany({}, function(err) {
@@ -61,9 +61,9 @@ const cronStuff = cron.schedule('* * * * *', () => {
 
                     ticket.save(function (err, ticket) {
                         if (err) {
-                            // console.log('There was an error saving Odata data.');
+                            console.log('There was an error saving Odata data.');
                         } else {
-                            // console.log(`This order saved to db: ${ticket._id}`);
+                            console.log(`This order saved to db: ${ticket._id}`);
                         }
                     });
                 }
